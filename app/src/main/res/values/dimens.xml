@@ -2,8 +2,10 @@
 <resources>
     <dimen name="slider_banner_height">135dp</dimen>
     <dimen name="standard_spacing">10dp</dimen>
+    <dimen name="small_spacing">5dp</dimen>
     <dimen name="large_spacing">15dp</dimen>
     <dimen name="corner_radius">15dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
     <dimen name="quick_link_item_size">80dp</dimen>
+    <dimen name="tiny_spacing">3dp</dimen>
 </resources>

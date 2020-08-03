@@ -47,9 +47,14 @@ class HomeFragment : Fragment() {
         binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
 
         //quick link
-        val layoutManager = GridLayoutManager(binding.root.context, 2, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvQuickLink.layoutManager = layoutManager
+        val gridLayoutManager = GridLayoutManager(binding.root.context, 2, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvQuickLink.layoutManager = gridLayoutManager
         binding.rvQuickLink.adapter = viewModel.quickLinkAdapter
+
+        //Flash deal
+        val linearLayoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFlashDeal.layoutManager = linearLayoutManager
+        binding.rvFlashDeal.adapter = viewModel.flashDealAdapter
     }
 
 }

@@ -10,10 +10,10 @@ import com.example.tikiapp.databinding.ItemSliderImageBinding
 import com.example.tikiapp.models.BannerModel
 import com.smarteist.autoimageslider.SliderViewAdapter
 
-class BannerAdapter : SliderViewAdapter<BannerAdapter.DishDetailViewHolder>() {
+class BannerAdapter : SliderViewAdapter<BannerAdapter.BannerViewHolder>() {
     private var mListData = ArrayList<BannerModel>()
 
-    override fun onBindViewHolder(holder: DishDetailViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
         holder.bindData(mListData[position].image_url)
     }
 
@@ -23,21 +23,21 @@ class BannerAdapter : SliderViewAdapter<BannerAdapter.DishDetailViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup): DishDetailViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): BannerViewHolder {
         val binding = DataBindingUtil.inflate<ItemSliderImageBinding>(
             LayoutInflater.from(parent.context),
             R.layout.item_slider_image,
             parent,
             false
         )
-        return DishDetailViewHolder(binding)
+        return BannerViewHolder(binding)
     }
 
     override fun getCount(): Int {
         return mListData.size
     }
 
-    class DishDetailViewHolder(private val mBinder: ItemSliderImageBinding) :
+    class BannerViewHolder(private val mBinder: ItemSliderImageBinding) :
         SliderViewAdapter.ViewHolder(mBinder.root) {
         fun bindData(url: String) {
             Glide.with(mBinder.root.context).load(url)

@@ -1,6 +1,7 @@
 package com.example.tikiapp.uiutil
 
 import com.example.tikiapp.models.BannerResponseModel
+import com.example.tikiapp.models.FlashDealResponseModel
 import com.example.tikiapp.models.QuickLinkResponseModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -18,6 +19,9 @@ interface ServiceRetrofit{
 
     @GET("shopping/v2/widgets/quick_link")
     fun getQuickLink() : Call<QuickLinkResponseModel>
+
+    @GET("v2/widget/deals/hot")
+    fun getFlashDeal() : Call<FlashDealResponseModel>
 }
 
 class SetupConnectToServer {

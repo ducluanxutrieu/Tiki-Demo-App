@@ -38,7 +38,7 @@
                 app:sliderIndicatorMargin="15dp"
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="3dp"
-                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorRadius="1dp"
                 app:sliderIndicatorSelectedColor="#5A5A5A"
                 app:sliderIndicatorUnselectedColor="#FFF"
                 app:sliderScrollTimeInSec="3"
@@ -51,6 +51,32 @@
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_quick_link"
             android:layout_marginHorizontal="@dimen/large_spacing"
+            tools:itemCount="1"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#C9D3D5"
+            android:layout_marginVertical="@dimen/large_spacing"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gia_soc_hom_nay"
+            android:textColor="#EC6A26"
+            android:textStyle="bold|italic"
+            android:textSize="22sp"
+            android:layout_marginHorizontal="@dimen/large_spacing"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_flash_deal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_flash_deal"
+            android:layout_marginHorizontal="@dimen/large_spacing"
+            tools:itemCount="1"
             />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
