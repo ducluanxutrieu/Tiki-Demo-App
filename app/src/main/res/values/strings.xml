@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Tiki  App</string>
+    <string name="home_fragment">Home Fragment</string>
+</resources>
