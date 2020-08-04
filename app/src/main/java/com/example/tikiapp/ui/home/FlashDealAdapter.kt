@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tikiapp.R
 import com.example.tikiapp.databinding.ItemFlashDealBinding
-import com.example.tikiapp.models.FlashDealModel
+import com.example.tikiapp.data.models.FlashDealModel
 import com.uit.party.util.StringUtil
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FlashDealAdapter : RecyclerView.Adapter<FlashDealAdapter.FlashDealViewHolder>() {
     private val listFlashDeal = ArrayList<FlashDealModel>()
@@ -40,9 +43,11 @@ class FlashDealAdapter : RecyclerView.Adapter<FlashDealAdapter.FlashDealViewHold
 
     class FlashDealViewHolder(private val item: ItemFlashDealBinding) :
         RecyclerView.ViewHolder(item.root) {
+        private val formatter: NumberFormat = NumberFormat.getNumberInstance(Locale("vi"))
+
         fun bindData(flashDealModel: FlashDealModel) {
             Glide.with(item.root).load(flashDealModel.product.thumbnail_url).into(item.ivFlashDeal)
-            val price = "${flashDealModel.product.price} ₫"
+            val price = formatter.format(flashDealModel.product.price) + " ₫"
             val percent = 100 - flashDealModel.progress.percent
             item.tvPrice.text = price
             item.pbFlashDeal.progress = percent.toInt()
@@ -61,7 +66,7 @@ class FlashDealAdapter : RecyclerView.Adapter<FlashDealAdapter.FlashDealViewHold
                 sellStatus = StringUtil.getString(R.string.just_opened_for_sale)
             }
 
-            if (percent < 20){
+            if (percent < 20) {
                 item.pbFlashDeal.progress = 20
             }
             item.tvSellStatus.text = sellStatus

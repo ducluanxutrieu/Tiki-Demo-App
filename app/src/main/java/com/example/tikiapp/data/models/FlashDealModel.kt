@@ -1,4 +1,4 @@
-package com.example.tikiapp.models
+package com.example.tikiapp.data.models
 
 import com.google.gson.annotations.SerializedName
 
@@ -48,7 +48,6 @@ data class Product(
     @SerializedName("url_path") val url_path: String,
     @SerializedName("price") val price: Int,
     @SerializedName("list_price") val ArrayList_price: Int,
-    @SerializedName("badges") val badges: ArrayList<String>,
     @SerializedName("discount") val discount: Int,
     @SerializedName("rating_average") val rating_average: Int,
     @SerializedName("review_count") val review_count: Int,

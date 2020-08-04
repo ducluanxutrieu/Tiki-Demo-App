@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.tikiapp.R
 import com.example.tikiapp.databinding.ItemSliderImageBinding
-import com.example.tikiapp.models.BannerModel
+import com.example.tikiapp.data.models.BannerModel
 import com.smarteist.autoimageslider.SliderViewAdapter
 
 class BannerAdapter : SliderViewAdapter<BannerAdapter.BannerViewHolder>() {

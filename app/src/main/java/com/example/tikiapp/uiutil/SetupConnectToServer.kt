@@ -1,8 +1,8 @@
 package com.example.tikiapp.uiutil
 
-import com.example.tikiapp.models.BannerResponseModel
-import com.example.tikiapp.models.FlashDealResponseModel
-import com.example.tikiapp.models.QuickLinkResponseModel
+import com.example.tikiapp.data.models.BannerResponseModel
+import com.example.tikiapp.data.models.FlashDealResponseModel
+import com.example.tikiapp.data.models.QuickLinkResponseModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request

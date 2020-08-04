@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tikiapp.R
 import com.example.tikiapp.databinding.ItemQuickLinkBinding
-import com.example.tikiapp.models.QuickLinkModel
+import com.example.tikiapp.data.models.QuickLinkModel
 
 class QuickLinkAdapter : RecyclerView.Adapter<QuickLinkAdapter.QuickLinkViewHolder>() {
     private val listQuickLink = ArrayList<QuickLinkModel>()

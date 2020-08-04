@@ -1,13 +1,17 @@
 package com.example.tikiapp.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.tikiapp.R
 import com.example.tikiapp.databinding.HomeFragmentBinding
 import com.smarteist.autoimageslider.SliderAnimations
@@ -18,8 +22,12 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    private val viewModel = HomeViewModel()
+    private lateinit var viewModel : HomeViewModel
     private lateinit var binding: HomeFragmentBinding
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private val bannerAdapter = BannerAdapter()
+    private val quickLinkAdapter = QuickLinkAdapter()
+    private val flashDealAdapter = FlashDealAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,29 +40,114 @@ class HomeFragment : Fragment() {
 
     private fun setupBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
-        binding.viewModel = viewModel
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this, HomeViewModelFactory()).get(HomeViewModel::class.java)
+
         setupRecyclerView()
-        // TODO: Use the ViewModel
+        setPullTwoRefresh()
+        listenLiveData()
+    }
+
+    private fun listenLiveData() {
+        viewModel.listBanner.observe(viewLifecycleOwner, Observer {
+            if (it.isEmpty()){
+                showHideBanner(false)
+            }else{
+                bannerAdapter.setData(it)
+                showHideBanner(true)
+            }
+
+            mSwipeRefreshLayout.isRefreshing = false
+        })
+
+        viewModel.listQuickLink.observe(viewLifecycleOwner, Observer {
+            if (it.isEmpty()){
+                showHideQuickLink(false)
+            }else{
+                quickLinkAdapter.setData(it)
+                showHideQuickLink(true)
+            }
+
+            mSwipeRefreshLayout.isRefreshing = false
+        })
+
+        viewModel.listFlashDeal.observe(viewLifecycleOwner, Observer {
+            if (it.isEmpty()){
+                showHideFlashDeal(false)
+            }else{
+                flashDealAdapter.setData(it)
+                showHideFlashDeal(true)
+            }
+
+            mSwipeRefreshLayout.isRefreshing = false
+        })
     }
 
     private fun setupRecyclerView() {
-        binding.imageSlider.setSliderAdapter(viewModel.bannerAdapter)
+        binding.imageSlider.setSliderAdapter(bannerAdapter)
         binding.imageSlider.startAutoCycle()
         binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
 
         //quick link
         val gridLayoutManager = GridLayoutManager(binding.root.context, 2, LinearLayoutManager.HORIZONTAL, false)
         binding.rvQuickLink.layoutManager = gridLayoutManager
-        binding.rvQuickLink.adapter = viewModel.quickLinkAdapter
+        binding.rvQuickLink.adapter = quickLinkAdapter
 
         //Flash deal
         val linearLayoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvFlashDeal.layoutManager = linearLayoutManager
-        binding.rvFlashDeal.adapter = viewModel.flashDealAdapter
+        binding.rvFlashDeal.adapter = flashDealAdapter
     }
 
+    private fun setPullTwoRefresh() {
+        mSwipeRefreshLayout = binding.swlHome
+        viewModel.getAllData()
+        hideAllItems()
+        mSwipeRefreshLayout.setOnRefreshListener {
+            mSwipeRefreshLayout.isRefreshing = true
+            hideAllItems()
+            viewModel.getAllData()/* {
+                mSwipeRefreshLayout.isRefreshing = false
+            }*/
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mSwipeRefreshLayout.setColorSchemeColors(
+                resources.getColor(R.color.colorPrimary, context?.theme),
+                resources.getColor(android.R.color.holo_green_dark, context?.theme),
+                resources.getColor(android.R.color.holo_orange_dark, context?.theme),
+                resources.getColor(android.R.color.holo_blue_dark, context?.theme)
+            )
+        }
+    }
+
+    private fun hideAllItems(){
+        binding.clpBanner.visibility = View.GONE
+        binding.clpFlashDeal.visibility = View.GONE
+        binding.clpQuickLink.visibility = View.GONE
+        binding.imageSlider.visibility = View.GONE
+        binding.rvQuickLink.visibility = View.GONE
+        binding.vFlashDeal.visibility = View.GONE
+        binding.tvTitleFlashDeal.visibility = View.GONE
+        binding.rvFlashDeal.visibility = View.GONE
+    }
+
+    private fun showHideBanner(isShow: Boolean){
+        binding.clpBanner.visibility = if (isShow) View.GONE else View.VISIBLE
+        binding.imageSlider.visibility = if (isShow) View.VISIBLE else View.GONE
+    }
+
+    private fun showHideQuickLink(isShow: Boolean){
+        binding.clpQuickLink.visibility = if (isShow) View.GONE else View.VISIBLE
+        binding.rvQuickLink.visibility = if (isShow) View.VISIBLE else View.GONE
+    }
+
+    private fun showHideFlashDeal(isShow: Boolean){
+        binding.clpFlashDeal.visibility = if (isShow) View.GONE else View.VISIBLE
+        binding.rvFlashDeal.visibility = if (isShow) View.VISIBLE else View.GONE
+        binding.tvTitleFlashDeal.visibility = if (isShow) View.VISIBLE else View.GONE
+        binding.vFlashDeal.visibility = if (isShow) View.VISIBLE else View.GONE
+    }
 }

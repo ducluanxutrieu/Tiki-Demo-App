@@ -1,4 +1,4 @@
-package com.example.tikiapp.models
+package com.example.tikiapp.data.models
 
 import com.google.gson.annotations.SerializedName
 

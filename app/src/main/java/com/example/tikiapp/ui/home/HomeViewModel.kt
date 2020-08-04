@@ -1,88 +1,62 @@
 package com.example.tikiapp.ui.home
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.tikiapp.MainActivity
-import com.example.tikiapp.models.BannerResponseModel
-import com.example.tikiapp.models.FlashDealResponseModel
-import com.example.tikiapp.models.QuickLinkModel
-import com.example.tikiapp.models.QuickLinkResponseModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.tikiapp.data.Result
+import com.example.tikiapp.data.home.HomeRepository
+import com.example.tikiapp.data.models.BannerModel
+import com.example.tikiapp.data.models.FlashDealModel
+import com.example.tikiapp.data.models.QuickLinkModel
 
-class HomeViewModel : ViewModel() {
-    val bannerAdapter = BannerAdapter()
-    val quickLinkAdapter = QuickLinkAdapter()
-    val flashDealAdapter = FlashDealAdapter()
 
-    init {
+class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
+    private val _listBanner = MutableLiveData<ArrayList<BannerModel>>()
+    val listBanner: LiveData<ArrayList<BannerModel>> = _listBanner
+
+    private val _listQuickLink = MutableLiveData<ArrayList<QuickLinkModel>>()
+    val listQuickLink: LiveData<ArrayList<QuickLinkModel>> = _listQuickLink
+
+    private val _listFlashDeal = MutableLiveData<ArrayList<FlashDealModel>>()
+    val listFlashDeal: LiveData<ArrayList<FlashDealModel>> = _listFlashDeal
+
+    fun getAllData(){
         getListBanner()
-        getQuickLink()
-        getFlashDeal()
     }
 
-    private fun getListBanner() {
-        MainActivity.serviceRetrofit.getBannerList()
-            .enqueue(object : Callback<BannerResponseModel> {
-                override fun onFailure(call: Call<BannerResponseModel>, t: Throwable) {
-                    Log.e("HomeViewModel", t.message ?: "", t)
-                }
-
-                override fun onResponse(
-                    call: Call<BannerResponseModel>,
-                    response: Response<BannerResponseModel>
-                ) {
-                    if (response.isSuccessful) {
-                        bannerAdapter.setData(response.body()?.bannerList ?: ArrayList())
-                    }
-                }
+    private fun getListBanner(){
+        _listBanner.value = ArrayList()
+        homeRepository.getListBanner {
+            if (it is Result.Success){
+                _listBanner.value = it.data.bannerList
+                getListQuickLink()
+            }else {
+                _listBanner.value = ArrayList()
             }
-            )
+        }
     }
 
-    private fun getQuickLink() {
-        MainActivity.serviceRetrofit.getQuickLink()
-            .enqueue(object : Callback<QuickLinkResponseModel> {
-                override fun onFailure(call: Call<QuickLinkResponseModel>, t: Throwable) {
-                    Log.e("HomeViewModel", t.message ?: "", t)
-                }
-
-                override fun onResponse(
-                    call: Call<QuickLinkResponseModel>,
-                    response: Response<QuickLinkResponseModel>
-                ) {
-                    if (response.isSuccessful) {
-                        quickLinkAdapter.setData(
-                            mixQuickLinkData(
-                                response.body()?.quickLink ?: ArrayList()
-                            )
-                        )
-                    }
-                }
+    private fun getListQuickLink(){
+        _listQuickLink.value = ArrayList()
+        homeRepository.getQuickLink {
+            if (it is Result.Success){
+                _listQuickLink.value = mixQuickLinkData(it.data.quickLink)
+                getListFlashDeal()
+            }else {
+                _listQuickLink.value = ArrayList()
             }
-            )
+        }
     }
 
-    private fun getFlashDeal() {
-        MainActivity.serviceRetrofit.getFlashDeal()
-            .enqueue(object : Callback<FlashDealResponseModel> {
-                override fun onFailure(call: Call<FlashDealResponseModel>, t: Throwable) {
-                    Log.e("HomeViewModel", t.message ?: "", t)
-                }
-
-                override fun onResponse(
-                    call: Call<FlashDealResponseModel>,
-                    response: Response<FlashDealResponseModel>
-                ) {
-                    if (response.isSuccessful) {
-                        flashDealAdapter.setData(
-                                response.body()?.flashDealList ?: ArrayList()
-                        )
-                    }
-                }
+    private fun getListFlashDeal(){
+        _listFlashDeal.value = ArrayList()
+        homeRepository.getFlashDeal {
+            if (it is Result.Success){
+                _listFlashDeal.value = it.data.flashDealList
+            }else {
+                _listFlashDeal.value = ArrayList()
             }
-            )
+        }
     }
 
     private fun mixQuickLinkData(listResponse: ArrayList<ArrayList<QuickLinkModel>>): ArrayList<QuickLinkModel> {
