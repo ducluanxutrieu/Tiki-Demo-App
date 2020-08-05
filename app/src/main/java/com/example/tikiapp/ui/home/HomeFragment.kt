@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
         binding.clpBanner.visibility = View.GONE
         binding.clpFlashDeal.visibility = View.GONE
         binding.clpQuickLink.visibility = View.GONE
-        binding.imageSlider.visibility = View.GONE
+        binding.cvBannerSlider.visibility = View.GONE
         binding.rvQuickLink.visibility = View.GONE
         binding.vFlashDeal.visibility = View.GONE
         binding.tvTitleFlashDeal.visibility = View.GONE
@@ -136,7 +136,7 @@ class HomeFragment : Fragment() {
 
     private fun showHideBanner(isShow: Boolean){
         binding.clpBanner.visibility = if (isShow) View.GONE else View.VISIBLE
-        binding.imageSlider.visibility = if (isShow) View.VISIBLE else View.GONE
+        binding.cvBannerSlider.visibility = if (isShow) View.VISIBLE else View.GONE
     }
 
     private fun showHideQuickLink(isShow: Boolean){
@@ -147,7 +147,7 @@ class HomeFragment : Fragment() {
     private fun showHideFlashDeal(isShow: Boolean){
         binding.clpFlashDeal.visibility = if (isShow) View.GONE else View.VISIBLE
         binding.rvFlashDeal.visibility = if (isShow) View.VISIBLE else View.GONE
-        binding.tvTitleFlashDeal.visibility = if (isShow) View.VISIBLE else View.GONE
-        binding.vFlashDeal.visibility = if (isShow) View.VISIBLE else View.GONE
+        binding.tvTitleFlashDeal.visibility = View.VISIBLE
+        binding.vFlashDeal.visibility = View.VISIBLE
     }
 }

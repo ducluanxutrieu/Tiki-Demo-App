@@ -41,7 +41,7 @@ class BannerAdapter : SliderViewAdapter<BannerAdapter.BannerViewHolder>() {
         SliderViewAdapter.ViewHolder(mBinder.root) {
         fun bindData(url: String) {
             Glide.with(mBinder.root.context).load(url)
-                .apply { RequestOptions.centerCropTransform() }.into(mBinder.ivBanner)
+                .apply { RequestOptions.centerCropTransform().placeholder(R.drawable.tiki_banner) }.error(R.drawable.tiki_banner).into(mBinder.ivBanner)
         }
     }
 }

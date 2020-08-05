@@ -28,11 +28,12 @@ class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
         _listBanner.value = ArrayList()
         homeRepository.getListBanner {
             if (it is Result.Success){
+//                Thread.sleep(2000)
                 _listBanner.value = it.data.bannerList
-                getListQuickLink()
             }else {
                 _listBanner.value = ArrayList()
             }
+            getListQuickLink()
         }
     }
 
@@ -40,11 +41,12 @@ class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
         _listQuickLink.value = ArrayList()
         homeRepository.getQuickLink {
             if (it is Result.Success){
+//                Thread.sleep(2000)
                 _listQuickLink.value = mixQuickLinkData(it.data.quickLink)
-                getListFlashDeal()
             }else {
                 _listQuickLink.value = ArrayList()
             }
+            getListFlashDeal()
         }
     }
 
@@ -52,6 +54,7 @@ class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
         _listFlashDeal.value = ArrayList()
         homeRepository.getFlashDeal {
             if (it is Result.Success){
+//                Thread.sleep(2000)
                 _listFlashDeal.value = it.data.flashDealList
             }else {
                 _listFlashDeal.value = ArrayList()
