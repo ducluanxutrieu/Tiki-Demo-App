@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Tiki App</string>
     <string name="home_fragment">Home Fragment</string>
-    <string name="gia_soc_hom_nay">Giá Sốc Hôm Nay</string>
     <string name="sold">Đã bán </string>
     <string name="just_opened_for_sale">Vừa mở bán</string>
+    <string name="detail_fragment">Detail Fragment</string>
 </resources>

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.tikiapp.R
 import com.example.tikiapp.databinding.ItemFlashDealBinding
 import com.example.tikiapp.data.models.FlashDealModel
-import com.uit.party.util.StringUtil
+import com.example.tikiapp.util.StringUtil
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList

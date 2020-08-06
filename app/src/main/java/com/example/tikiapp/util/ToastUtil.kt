@@ -1,7 +1,6 @@
-package com.uit.party.util
+package com.example.tikiapp.util
 
 import android.widget.Toast
-import com.example.tikiapp.uiutil.GlobalApplication
 
 object ToastUtil {
     fun showToast(toast: String){

@@ -3,16 +3,19 @@ package com.example.tikiapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tikiapp.data.Result
 import com.example.tikiapp.data.home.HomeRepository
-import com.example.tikiapp.data.models.BannerModel
 import com.example.tikiapp.data.models.FlashDealModel
 import com.example.tikiapp.data.models.QuickLinkModel
+import com.example.tikiapp.util.ToastUtil
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import java.lang.Exception
 
 
-class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
-    private val _listBanner = MutableLiveData<ArrayList<BannerModel>>()
-    val listBanner: LiveData<ArrayList<BannerModel>> = _listBanner
+class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
+    val listBanner = repository.bannerList
 
     private val _listQuickLink = MutableLiveData<ArrayList<QuickLinkModel>>()
     val listQuickLink: LiveData<ArrayList<QuickLinkModel>> = _listQuickLink
@@ -25,39 +28,52 @@ class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
     }
 
     private fun getListBanner(){
-        _listBanner.value = ArrayList()
-        homeRepository.getListBanner {
-            if (it is Result.Success){
-//                Thread.sleep(2000)
-                _listBanner.value = it.data.bannerList
-            }else {
-                _listBanner.value = ArrayList()
+        viewModelScope.launch {
+            try {
+                repository.getListBanner()
+            }catch (error: Exception){
+                ToastUtil.showToast(error.message ?: "")
             }
-            getListQuickLink()
+            finally {
+                getListQuickLink()
+            }
         }
     }
 
     private fun getListQuickLink(){
         _listQuickLink.value = ArrayList()
-        homeRepository.getQuickLink {
-            if (it is Result.Success){
-//                Thread.sleep(2000)
-                _listQuickLink.value = mixQuickLinkData(it.data.quickLink)
-            }else {
-                _listQuickLink.value = ArrayList()
+        viewModelScope.launch {
+            try {
+                val result = repository.getQuickLink()
+                if (result is Result.Success) {
+                    delay(2_000)
+                    _listQuickLink.value = mixQuickLinkData(result.data.quickLink)
+                }else {
+                    _listQuickLink.value = null
+                }
+            }catch (error: Exception){
+                ToastUtil.showToast(error.message ?: "")
+                _listQuickLink.value = null
+            }finally {
+                getListFlashDeal()
             }
-            getListFlashDeal()
         }
     }
 
     private fun getListFlashDeal(){
         _listFlashDeal.value = ArrayList()
-        homeRepository.getFlashDeal {
-            if (it is Result.Success){
-//                Thread.sleep(2000)
-                _listFlashDeal.value = it.data.flashDealList
-            }else {
-                _listFlashDeal.value = ArrayList()
+        viewModelScope.launch {
+            try {
+                val result = repository.getFlashDeal()
+                if (result is Result.Success){
+                    delay(2_000)
+                    _listFlashDeal.value = result.data.flashDealList
+                }else {
+                    _listFlashDeal.value = null
+                }
+            }catch (error: Exception){
+                ToastUtil.showToast(error.message ?: "")
+                _listFlashDeal.value = null
             }
         }
     }

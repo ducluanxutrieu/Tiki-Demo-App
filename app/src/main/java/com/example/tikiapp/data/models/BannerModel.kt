@@ -1,5 +1,7 @@
 package com.example.tikiapp.data.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class BannerResponseModel(
@@ -7,8 +9,9 @@ data class BannerResponseModel(
     @SerializedName("data") val bannerList: ArrayList<BannerModel>
 )
 
+@Entity(tableName = "banner_table")
 data class BannerModel(
-
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id") val id: Int,
     @SerializedName("title") val title: String,
     @SerializedName("content") val content: String,

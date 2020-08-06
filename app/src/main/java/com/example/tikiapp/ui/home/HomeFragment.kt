@@ -9,23 +9,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.tikiapp.R
+import com.example.tikiapp.data.home.getDatabase
 import com.example.tikiapp.databinding.HomeFragmentBinding
 import com.smarteist.autoimageslider.SliderAnimations
 
-class HomeFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
+class HomeFragment : Fragment(), BannerListener {
 
     private lateinit var viewModel : HomeViewModel
     private lateinit var binding: HomeFragmentBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
-    private val bannerAdapter = BannerAdapter()
+    private val bannerAdapter = BannerAdapter(this)
     private val quickLinkAdapter = QuickLinkAdapter()
     private val flashDealAdapter = FlashDealAdapter()
 
@@ -44,7 +42,8 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, HomeViewModelFactory()).get(HomeViewModel::class.java)
+        val database = getDatabase(this.requireContext())
+        viewModel = ViewModelProvider(this, HomeViewModelFactory(database)).get(HomeViewModel::class.java)
 
         setupRecyclerView()
         setPullTwoRefresh()
@@ -64,22 +63,34 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.listQuickLink.observe(viewLifecycleOwner, Observer {
-            if (it.isEmpty()){
-                showHideQuickLink(false)
-            }else{
-                quickLinkAdapter.setData(it)
-                showHideQuickLink(true)
+            when {
+                it == null -> {
+                    hideQuickLink()
+                }
+                it.isEmpty() -> {
+                    showHideQuickLink(false)
+                }
+                else -> {
+                    quickLinkAdapter.setData(it)
+                    showHideQuickLink(true)
+                }
             }
 
             mSwipeRefreshLayout.isRefreshing = false
         })
 
         viewModel.listFlashDeal.observe(viewLifecycleOwner, Observer {
-            if (it.isEmpty()){
-                showHideFlashDeal(false)
-            }else{
-                flashDealAdapter.setData(it)
-                showHideFlashDeal(true)
+            when {
+                it == null -> {
+                    hideFlashDeal()
+                }
+                it.isEmpty() -> {
+                    showHideFlashDeal(false)
+                }
+                else -> {
+                    flashDealAdapter.setData(it)
+                    showHideFlashDeal(true)
+                }
             }
 
             mSwipeRefreshLayout.isRefreshing = false
@@ -124,11 +135,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun hideAllItems(){
+//        hideBanner()
+        hideQuickLink()
+        hideFlashDeal()
+    }
+
+/*    private fun hideBanner() {
         binding.clpBanner.visibility = View.GONE
-        binding.clpFlashDeal.visibility = View.GONE
-        binding.clpQuickLink.visibility = View.GONE
         binding.cvBannerSlider.visibility = View.GONE
+    }*/
+
+    private fun hideQuickLink(){
+        binding.clpQuickLink.visibility = View.GONE
         binding.rvQuickLink.visibility = View.GONE
+    }
+
+    private fun hideFlashDeal(){
+        binding.clpFlashDeal.visibility = View.GONE
         binding.vFlashDeal.visibility = View.GONE
         binding.tvTitleFlashDeal.visibility = View.GONE
         binding.rvFlashDeal.visibility = View.GONE
@@ -149,5 +172,10 @@ class HomeFragment : Fragment() {
         binding.rvFlashDeal.visibility = if (isShow) View.VISIBLE else View.GONE
         binding.tvTitleFlashDeal.visibility = View.VISIBLE
         binding.vFlashDeal.visibility = View.VISIBLE
+    }
+
+    override fun bannerClickedListener(url: String) {
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(url)
+        binding.root.findNavController().navigate(action)
     }
 }

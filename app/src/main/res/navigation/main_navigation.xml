@@ -12,5 +12,17 @@
         tools:layout="@layout/home_fragment"
         >
 
+        <action android:id="@+id/action_HomeFragment_to_DetailFragment"
+            app:destination="@id/nav_detail_fragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_detail_fragment"
+        android:name="com.example.tikiapp.ui.detail.DetailFragment"
+        android:label="@string/detail_fragment"
+        tools:layout="@layout/detail_fragment">
+
+        <argument android:name="url"
+            app:argType="string"/>
     </fragment>
 </navigation>
