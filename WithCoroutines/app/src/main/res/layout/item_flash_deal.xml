@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="@dimen/item_flash_deal_height"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/small_spacing"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_flash_deal"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                tools:src="@drawable/sample_flash_deal_image" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_discount_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                app:cardBackgroundColor="@android:color/holo_red_dark"
+                app:cardCornerRadius="3dp"
+                tools:ignore="RelativeOverlap">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_discount_percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/small_spacing"
+                    android:layout_marginVertical="@dimen/tiny_spacing"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="-90%" />
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_marginVertical="@dimen/standard_spacing"
+            tools:text="8.900 ₫" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/pb_flash_deal"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/standard_spacing"
+                android:contentDescription="@string/app_name"
+                android:max="100"
+                android:progress="30"
+                android:progressDrawable="@drawable/custom_progress_flash_deal" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ic_hot_deal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_spacing"
+                app:srcCompat="@drawable/ic_fire"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_sell_status"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/standard_spacing"
+                android:background="#00000000"
+                android:textColor="@android:color/white"
+                tools:text="Vừa mở bán" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
