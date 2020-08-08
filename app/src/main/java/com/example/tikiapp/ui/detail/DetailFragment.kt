@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.detail_fragment.*
 
 class DetailFragment : Fragment() {
     private val mArgs: DetailFragmentArgs by navArgs()
-    private lateinit var viewModel: DeailViewModel
+    private lateinit var viewModel: DetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,7 +23,7 @@ class DetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DeailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
 //        wv_detail.settings.javaScriptEnabled = true;
 
         wv_detail.loadUrl(mArgs.url)
