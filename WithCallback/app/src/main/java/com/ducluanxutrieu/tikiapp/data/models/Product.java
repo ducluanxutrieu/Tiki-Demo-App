@@ -1,11 +1,7 @@
-
-
-package com.ducluanxutrieu.tikiapp.models;
+package com.ducluanxutrieu.tikiapp.data.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
 
 public class Product {
 
@@ -27,9 +23,6 @@ public class Product {
     @SerializedName("list_price")
     @Expose
     private Integer listPrice;
-    @SerializedName("badges")
-    @Expose
-    private ArrayList<Object> badges = null;
     @SerializedName("discount")
     @Expose
     private Integer discount;
@@ -119,14 +112,6 @@ public class Product {
 
     public void setListPrice(Integer listPrice) {
         this.listPrice = listPrice;
-    }
-
-    public ArrayList<Object> getBadges() {
-        return badges;
-    }
-
-    public void setBadges(ArrayList<Object> badges) {
-        this.badges = badges;
     }
 
     public Integer getDiscount() {

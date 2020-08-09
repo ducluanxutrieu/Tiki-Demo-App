@@ -1,11 +1,11 @@
 package com.ducluanxutrieu.tikiapp.data;
 
 import com.ducluanxutrieu.tikiapp.data.models.BannerResponseModel;
-import com.ducluanxutrieu.tikiapp.models.FlashDealResponseModel;
-import com.ducluanxutrieu.tikiapp.models.QuickLinkResponseModel;
+import com.ducluanxutrieu.tikiapp.data.models.FlashDealResponseModel;
+import com.ducluanxutrieu.tikiapp.data.models.QuickLinkResponseModel;
 
 import retrofit2.Call;
-import retrofit2.http.GET;
+import retrofit2.http.*;
 
 public interface RetrofitService {
     @GET("v2/home/banners/v2")
@@ -16,4 +16,4 @@ public interface RetrofitService {
 
     @GET("v2/widget/deals/hot")
     Call<FlashDealResponseModel> getFlashDeal();
-};
+}

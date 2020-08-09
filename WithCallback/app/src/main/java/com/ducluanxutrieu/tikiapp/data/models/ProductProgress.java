@@ -1,4 +1,4 @@
-package com.ducluanxutrieu.tikiapp.models;
+package com.ducluanxutrieu.tikiapp.data.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -16,7 +16,7 @@ private Integer qtyOrdered;
 private Integer qtyRemain;
 @SerializedName("percent")
 @Expose
-private Integer percent;
+private double percent;
 @SerializedName("status")
 @Expose
 private String status;
@@ -45,7 +45,7 @@ public void setQtyRemain(Integer qtyRemain) {
 this.qtyRemain = qtyRemain;
 }
 
-public Integer getPercent() {
+public double getPercent() {
 return percent;
 }
 

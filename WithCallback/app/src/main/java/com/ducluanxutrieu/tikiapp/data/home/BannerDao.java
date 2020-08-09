@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Dao
-interface BannerDao{
+public interface BannerDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAllBanner(ArrayList<BannerModel> bannerList);
 

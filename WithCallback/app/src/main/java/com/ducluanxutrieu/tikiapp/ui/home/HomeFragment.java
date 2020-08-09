@@ -10,21 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ducluanxutrieu.tikiapp.R;
-import com.ducluanxutrieu.tikiapp.data.models.BannerModel;
+import com.ducluanxutrieu.tikiapp.data.TikiDatabase;
 import com.ducluanxutrieu.tikiapp.databinding.HomeFragmentBinding;
 import com.smarteist.autoimageslider.SliderAnimations;
-
-import java.util.List;
 
 public class HomeFragment extends Fragment implements BannerListener {
 
     private HomeViewModel mViewModel;
-    private BannerAdapter mBannerAdapter = new BannerAdapter(this);
+    private BannerAdapter mBannerAdapter;
+    private QuickLinkAdapter mQuickLinkAdapter;
+    private FlashDealAdapter mFlashDealAdapter;
     private HomeFragmentBinding mBinding;
     private SwipeRefreshLayout mSwipeRefresh;
 
@@ -39,7 +41,8 @@ public class HomeFragment extends Fragment implements BannerListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        TikiDatabase database = TikiDatabase.getInstance(requireContext());
+        mViewModel = new ViewModelProvider(this, new HomeViewModelFactory(database)).get(HomeViewModel.class);
 
         setupRecyclerView();
         setPullTwoRefresh();
@@ -47,67 +50,52 @@ public class HomeFragment extends Fragment implements BannerListener {
     }
 
     private void listenLiveData() {
-        mViewModel.listBanner.observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object object) {
-                List<BannerModel> list = (List<BannerModel>) object;
-                if (list.isEmpty()){
-                    showHideBanner(false);
-                }else{
-                    mBannerAdapter.setData(list);
-                    showHideBanner(true);
-                }
-
-                mSwipeRefresh.setRefreshing(false);
+        mViewModel.listBanner.observe(getViewLifecycleOwner(), bannerModels -> {
+            if (bannerModels.isEmpty()) {
+                showHideBanner(false);
+            } else {
+                mBannerAdapter.setData(bannerModels);
+                showHideBanner(true);
             }
+
+            mSwipeRefresh.setRefreshing(false);
         });
 
-//        mViewModel.listQuickLink.observe(viewLifecycleOwner, Observer {
-//            when {
-//                it == null -> {
-//                    hideQuickLink()
-//                }
-//                it.isEmpty() -> {
-//                    showHideQuickLink(false)
-//                }
-//                else -> {
-//                    quickLinkAdapter.setData(it)
-//                    showHideQuickLink(true)
-//                }
-//            }
-//
-//            mSwipeRefreshLayout.isRefreshing = false
-//        })
-//
-//        mViewModel.listFlashDeal.observe(viewLifecycleOwner, Observer {
-//            when {
-//                it == null -> {
-//                    hideFlashDeal()
-//                }
-//                it.isEmpty() -> {
-//                    showHideFlashDeal(false)
-//                }
-//                else -> {
-//                    flashDealAdapter.setData(it)
-//                    showHideFlashDeal(true)
-//                }
-//            }
-//
-//            mSwipeRefreshLayout.isRefreshing = false
-//        })
+        mViewModel.listQuickLink.observe(getViewLifecycleOwner(), listQuickLink -> {
+            if (listQuickLink == null) {
+                hideQuickLink();
+            } else if (listQuickLink.isEmpty()) {
+                showHideQuickLink(false);
+            } else {
+                mQuickLinkAdapter.setData(listQuickLink);
+                showHideQuickLink(true);
+            }
+
+            mSwipeRefresh.setRefreshing(false);
+        });
+
+        mViewModel.listFlashDeal.observe(getViewLifecycleOwner(), listFlashDeal -> {
+            if (listFlashDeal == null) {
+                hideFlashDeal();
+            } else if (listFlashDeal.isEmpty()) {
+                showHideFlashDeal(false);
+            } else {
+                mFlashDealAdapter.setData(listFlashDeal);
+                showHideFlashDeal(true);
+            }
+
+            mSwipeRefresh.setRefreshing(false);
+        });
     }
 
     private void setPullTwoRefresh() {
         mSwipeRefresh = mBinding.swlHome;
         mViewModel.getAllData();
         hideAllItems();
-        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mSwipeRefresh.setRefreshing(true);
-                hideAllItems();
-                mViewModel.getAllData();
-            }
+        mSwipeRefresh.setOnRefreshListener(() -> {
+            mSwipeRefresh.setRefreshing(true);
+            hideAllItems();
+            mViewModel.getAllData();
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mSwipeRefresh.setColorSchemeColors(
@@ -120,19 +108,22 @@ public class HomeFragment extends Fragment implements BannerListener {
     }
 
     private void setupRecyclerView() {
+        mBannerAdapter = new BannerAdapter(this);
         mBinding.imageSlider.setSliderAdapter(mBannerAdapter);
         mBinding.imageSlider.startAutoCycle();
         mBinding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
 
-//        //quick link
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(mBinding.getRoot().getContext(), 2, LinearLayoutManager.HORIZONTAL, false)
-//        mBinding.rvQuickLink.setLayoutManager(gridLayoutManager);
-//        mBinding.rvQuickLink.setAdapter(); = quickLinkAdapter
-//
-//        //Flash deal
-//        val linearLayoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-//        mBinding.rvFlashDeal.layoutManager = linearLayoutManager
-//        mBinding.rvFlashDeal.adapter = flashDealAdapter
+        //quick link
+        mQuickLinkAdapter = new QuickLinkAdapter();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mBinding.getRoot().getContext(), 2, LinearLayoutManager.HORIZONTAL, false);
+        mBinding.rvQuickLink.setLayoutManager(gridLayoutManager);
+        mBinding.rvQuickLink.setAdapter(mQuickLinkAdapter);
+
+        //Flash deal
+        mFlashDealAdapter = new FlashDealAdapter();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mBinding.getRoot().getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mBinding.rvFlashDeal.setLayoutManager(linearLayoutManager);
+        mBinding.rvFlashDeal.setAdapter(mFlashDealAdapter);
     }
 
     private void hideAllItems() {
@@ -142,20 +133,37 @@ public class HomeFragment extends Fragment implements BannerListener {
     }
 
     private void hideFlashDeal() {
-
+        mBinding.clpFlashDeal.setVisibility(View.GONE);
+        mBinding.vFlashDeal.setVisibility(View.GONE);
+        mBinding.tvTitleFlashDeal.setVisibility(View.GONE);
+        mBinding.rvFlashDeal.setVisibility(View.GONE);
     }
 
     private void hideQuickLink() {
-
+        mBinding.clpQuickLink.setVisibility(View.GONE);
+        mBinding.rvQuickLink.setVisibility(View.GONE);
     }
 
-    private void showHideBanner(boolean isShow){
+    private void showHideBanner(boolean isShow) {
         mBinding.clpBanner.setVisibility(isShow ? View.GONE : View.VISIBLE);
         mBinding.cvBannerSlider.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
+    private void showHideQuickLink(Boolean isShow) {
+        mBinding.clpQuickLink.setVisibility(isShow ? View.GONE : View.VISIBLE);
+        mBinding.rvQuickLink.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    private void showHideFlashDeal(Boolean isShow) {
+        mBinding.clpFlashDeal.setVisibility(isShow ? View.GONE : View.VISIBLE);
+        mBinding.rvFlashDeal.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        mBinding.tvTitleFlashDeal.setVisibility(View.VISIBLE);
+        mBinding.vFlashDeal.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void bannerClickedListener(String url) {
-
+        HomeFragmentDirections.ActionHomeFragmentToDetailFragment action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(url);
+        NavHostFragment.findNavController(this).navigate(action);
     }
 }

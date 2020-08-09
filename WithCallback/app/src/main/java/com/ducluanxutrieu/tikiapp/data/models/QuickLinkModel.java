@@ -1,4 +1,4 @@
-package com.ducluanxutrieu.tikiapp.models;
+package com.ducluanxutrieu.tikiapp.data.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

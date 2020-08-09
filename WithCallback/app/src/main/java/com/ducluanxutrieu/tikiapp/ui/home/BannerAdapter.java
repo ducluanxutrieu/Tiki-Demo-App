@@ -1,7 +1,6 @@
 package com.ducluanxutrieu.tikiapp.ui.home;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
@@ -22,7 +21,7 @@ interface BannerListener {
 }
 
 public class BannerAdapter extends SliderViewAdapter<BannerAdapter.BannerViewHolder> {
-    BannerListener bannerListener;
+    private final BannerListener bannerListener;
     private List<BannerModel> mListData = emptyList();
 
     public BannerAdapter(BannerListener bannerListener) {
@@ -51,9 +50,9 @@ public class BannerAdapter extends SliderViewAdapter<BannerAdapter.BannerViewHol
     }
 
     public static class BannerViewHolder extends SliderViewAdapter.ViewHolder {
-        ItemSliderImageBinding mBinder;
+        final ItemSliderImageBinding mBinder;
 
-        BannerListener listener;
+        final BannerListener listener;
 
         public BannerViewHolder(ItemSliderImageBinding mBinder, BannerListener listener) {
             super(mBinder.getRoot());
@@ -64,12 +63,7 @@ public class BannerAdapter extends SliderViewAdapter<BannerAdapter.BannerViewHol
         public void bindData(String url, final String mobileUrl) {
             Glide.with(mBinder.getRoot().getContext()).load(url)
                     .apply(RequestOptions.centerCropTransform().placeholder(R.drawable.tiki_banner)).error(R.drawable.tiki_banner).into(mBinder.ivBanner);
-            mBinder.ivBanner.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.bannerClickedListener(mobileUrl);
-                }
-            });
+            mBinder.ivBanner.setOnClickListener(view -> listener.bannerClickedListener(mobileUrl));
         }
     }
 }

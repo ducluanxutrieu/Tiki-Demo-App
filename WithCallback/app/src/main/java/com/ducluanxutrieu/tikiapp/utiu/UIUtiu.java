@@ -4,12 +4,13 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class UIUtiu {
-    Context context = GlobalApplication.appContext;
-    String getString(int stringId){
+    public static String getString(int stringId) {
+        Context context = GlobalApplication.appContext;
         return context.getString(stringId);
     }
 
-    void showToast(String toast){
+    public static void showToast(String toast) {
+        Context context = GlobalApplication.appContext;
         Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }
 }

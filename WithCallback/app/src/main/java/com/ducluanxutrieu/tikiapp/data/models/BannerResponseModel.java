@@ -9,13 +9,13 @@ public class BannerResponseModel {
 
     @SerializedName("data")
     @Expose
-    private ArrayList<BannerModel> data = null;
+    private ArrayList<BannerModel> bannerList = null;
 
-    public ArrayList<BannerModel> getData() {
-        return data;
+    public ArrayList<BannerModel> getBannerList() {
+        return bannerList;
     }
 
-    public void setData(ArrayList<BannerModel> data) {
-        this.data = data;
+    public void setBannerList(ArrayList<BannerModel> bannerList) {
+        this.bannerList = bannerList;
     }
 }

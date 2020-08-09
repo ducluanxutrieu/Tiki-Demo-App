@@ -1,4 +1,4 @@
-package com.ducluanxutrieu.tikiapp.models;
+package com.ducluanxutrieu.tikiapp.data.models;
 
 import java.util.ArrayList;
 
@@ -9,36 +9,14 @@ public class FlashDealResponseModel {
 
     @SerializedName("data")
     @Expose
-    private ArrayList<FlashDealModel> data = null;
-    @SerializedName("tabs")
-    @Expose
-    private ArrayList<ProductTab> productTabs = null;
-    @SerializedName("version")
-    @Expose
-    private String version;
+    private ArrayList<FlashDealModel> dealModelList = null;
 
-    public ArrayList<FlashDealModel> getData() {
-        return data;
+    public ArrayList<FlashDealModel> getDealModelList() {
+        return dealModelList;
     }
 
-    public void setData(ArrayList<FlashDealModel> data) {
-        this.data = data;
-    }
-
-    public ArrayList<ProductTab> getProductTabs() {
-        return productTabs;
-    }
-
-    public void setProductTabs(ArrayList<ProductTab> productTabs) {
-        this.productTabs = productTabs;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
+    public void setDealModelList(ArrayList<FlashDealModel> dealModelList) {
+        this.dealModelList = dealModelList;
     }
 
 }
