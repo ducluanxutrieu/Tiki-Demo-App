@@ -5,13 +5,8 @@
       <config />
     </shared>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="HomeViewModel" />
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="info" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c02f613-db02-44bf-9fad-d60fbea8e5d7" name="Default Changelist" comment="" />
+    <list default="true" id="df01419e-03ce-4e33-9038-ec8832b29e9d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,22 +25,44 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1fo8t3YRlQmzbJM6AD50KniSiLg" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="1fopdU1ADOddn9e7m1y4Kau5ZQv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-08T08:00:07.389Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../WithCallback" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Clone/kotlin-coroutines/coroutines-codelab/start" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="android.template.-1732680050">
+      <recent name="com.ducluanxutrieu.tikiapp.ui.detail" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\AndroidProjects\Tiki-Demo-App\TikiApp\app\src\main\res\drawable" />
+      <recent name="D:\AndroidProjects\Tiki-Demo-App\TikiApp\app\src\main\res" />
+      <recent name="D:\AndroidProjects\Tiki-Demo-App\TikiApp\app\src\main\res\values" />
+      <recent name="D:\AndroidProjects\Tiki-Demo-App\TikiApp\app\src\main\res\layout" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -112,42 +129,62 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1c02f613-db02-44bf-9fad-d60fbea8e5d7" name="Default Changelist" comment="" />
-      <created>1596873296046</created>
+      <changelist id="df01419e-03ce-4e33-9038-ec8832b29e9d" name="Default Changelist" comment="" />
+      <created>1596894386977</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1596873296046</updated>
+      <updated>1596894386977</updated>
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="933" y="172" key="FileChooserDialogImpl" timestamp="1597062205092">
+    <state x="130" y="149" key="#PSD" timestamp="1596895039868">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="933" y="172" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1597062205092" />
-    <state width="1164" height="336" key="GridCell.Tab.0.bottom" timestamp="1596894453795">
+    <state x="130" y="149" key="#PSD/0.0.1536.834@0.0.1536.834" timestamp="1596895039868" />
+    <state x="190" y="136" key="#com.intellij.ide.util.MemberChooser" timestamp="1596911536167">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1164" height="336" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1596894453795" />
-    <state width="1164" height="336" key="GridCell.Tab.0.center" timestamp="1596894453795">
+    <state x="190" y="136" key="#com.intellij.ide.util.MemberChooser/0.0.1536.834@0.0.1536.834" timestamp="1596911536167" />
+    <state x="150" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1596895974753">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1164" height="336" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1596894453795" />
-    <state width="1164" height="336" key="GridCell.Tab.0.left" timestamp="1596894453794">
+    <state x="150" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.834@0.0.1536.834" timestamp="1596895974753" />
+    <state x="115" y="167" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1596906018287">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1164" height="336" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1596894453794" />
-    <state width="1164" height="336" key="GridCell.Tab.0.right" timestamp="1596894453795">
+    <state x="115" y="167" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.834@0.0.1536.834" timestamp="1596906018287" />
+    <state x="0" y="175" key="AndroidCreateResourceDirectoryDialog" timestamp="1596896464491">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="1164" height="336" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1596894453795" />
-    <state x="309" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1597062196590">
+    <state x="0" y="175" key="AndroidCreateResourceDirectoryDialog/0.0.1536.834@0.0.1536.834" timestamp="1596896464491" />
+    <state x="393" y="172" key="FileChooserDialogImpl" timestamp="1596903197250">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="309" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1597062196590" />
-    <state x="809" y="193" key="run.anything.popup" timestamp="1596896914469">
+    <state x="393" y="172" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1596903197250" />
+    <state width="1491" height="213" key="GridCell.Tab.0.bottom" timestamp="1596912439597">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="809" y="193" key="run.anything.popup/0.0.1536.834@0.0.1536.834" timestamp="1596896914469" />
+    <state width="1491" height="213" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1596912439597" />
+    <state width="1491" height="213" key="GridCell.Tab.0.center" timestamp="1596912439597">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1491" height="213" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1596912439597" />
+    <state width="1491" height="213" key="GridCell.Tab.0.left" timestamp="1596912439597">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1491" height="213" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1596912439597" />
+    <state width="1491" height="213" key="GridCell.Tab.0.right" timestamp="1596912439597">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1491" height="213" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1596912439597" />
+    <state x="258" y="165" key="caller.chooser.dialog" timestamp="1596905688793">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="258" y="165" key="caller.chooser.dialog/0.0.1536.834@0.0.1536.834" timestamp="1596905688793" />
+    <state x="21" y="35" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1596902369515">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="21" y="35" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.834@0.0.1536.834" timestamp="1596902369515" />
   </component>
 </project>
