@@ -16,7 +16,7 @@ import com.ducluanxutrieu.tikiapp.R;
 import com.ducluanxutrieu.tikiapp.data.models.FlashDealModel;
 import com.ducluanxutrieu.tikiapp.databinding.ItemFlashDealBinding;
 import com.ducluanxutrieu.tikiapp.utiu.ClickedListener;
-import com.ducluanxutrieu.tikiapp.utiu.UIUtiu;
+import com.ducluanxutrieu.tikiapp.utiu.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -83,14 +83,14 @@ public class FlashDealAdapter extends RecyclerView.Adapter<FlashDealAdapter.Flas
             item.tvDiscountPercent.setText(discountPercent);
 
             String sellStatus =
-                UIUtiu.getString(R.string.sold) + " " + flashDealModel.getProductProgress().getQtyOrdered();
+                Util.getString(R.string.sold) + " " + flashDealModel.getProductProgress().getQtyOrdered();
 
             if (percent > 50) {
                 item.icHotDeal.setVisibility(View.VISIBLE);
             } else item.icHotDeal.setVisibility(View.GONE);
 
             if (percent < 5) {
-                sellStatus = UIUtiu.getString(R.string.just_opened_for_sale);
+                sellStatus = Util.getString(R.string.just_opened_for_sale);
             }
 
             if (percent < 20) {
