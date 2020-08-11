@@ -19,9 +19,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.ducluanxutrieu.tikiapp.R;
 import com.ducluanxutrieu.tikiapp.data.TikiDatabase;
 import com.ducluanxutrieu.tikiapp.databinding.HomeFragmentBinding;
+import com.ducluanxutrieu.tikiapp.utiu.ClickedListener;
 import com.smarteist.autoimageslider.SliderAnimations;
 
-public class HomeFragment extends Fragment implements BannerListener {
+public class HomeFragment extends Fragment implements ClickedListener {
 
     private HomeViewModel mViewModel;
     private BannerAdapter mBannerAdapter;
@@ -114,13 +115,13 @@ public class HomeFragment extends Fragment implements BannerListener {
         mBinding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
 
         //quick link
-        mQuickLinkAdapter = new QuickLinkAdapter();
+        mQuickLinkAdapter = new QuickLinkAdapter(this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mBinding.getRoot().getContext(), 2, LinearLayoutManager.HORIZONTAL, false);
         mBinding.rvQuickLink.setLayoutManager(gridLayoutManager);
         mBinding.rvQuickLink.setAdapter(mQuickLinkAdapter);
 
         //Flash deal
-        mFlashDealAdapter = new FlashDealAdapter();
+        mFlashDealAdapter = new FlashDealAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mBinding.getRoot().getContext(), LinearLayoutManager.HORIZONTAL, false);
         mBinding.rvFlashDeal.setLayoutManager(linearLayoutManager);
         mBinding.rvFlashDeal.setAdapter(mFlashDealAdapter);
@@ -162,7 +163,7 @@ public class HomeFragment extends Fragment implements BannerListener {
     }
 
     @Override
-    public void bannerClickedListener(String url) {
+    public void onClickedListener(String url) {
         HomeFragmentDirections.ActionHomeFragmentToDetailFragment action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(url);
         NavHostFragment.findNavController(this).navigate(action);
     }

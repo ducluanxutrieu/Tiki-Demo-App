@@ -11,6 +11,7 @@ import com.ducluanxutrieu.tikiapp.data.models.BannerModel;
 import com.ducluanxutrieu.tikiapp.data.models.FlashDealModel;
 import com.ducluanxutrieu.tikiapp.data.models.FlashDealResponseModel;
 import com.ducluanxutrieu.tikiapp.data.models.QuickLinkModel;
+import com.ducluanxutrieu.tikiapp.utiu.SimpleCallback;
 import com.ducluanxutrieu.tikiapp.utiu.UIUtiu;
 
 import java.util.ArrayList;
@@ -22,10 +23,13 @@ public class HomeViewModel extends ViewModel {
     public final LiveData<List<BannerModel>> listBanner;
 
     private final MutableLiveData<ArrayList<QuickLinkModel>> _listQuickLink = new MutableLiveData<>();
-    final LiveData<ArrayList<QuickLinkModel>> listQuickLink  = _listQuickLink;
+    final LiveData<ArrayList<QuickLinkModel>> listQuickLink = _listQuickLink;
 
     private final MutableLiveData<ArrayList<FlashDealModel>> _listFlashDeal = new MutableLiveData<>();
     final LiveData<ArrayList<FlashDealModel>> listFlashDeal = _listFlashDeal;
+
+    boolean isBannerRequested = false;
+    boolean isQuickLinkRequested = false;
 
     public HomeViewModel(HomeRepository repository) {
         this.repository = repository;
@@ -34,17 +38,28 @@ public class HomeViewModel extends ViewModel {
 
 
     public void getAllData() {
+        isBannerRequested = false;
+        isQuickLinkRequested = false;
         Log.i("HomeViewModel", Calendar.getInstance().getTime().getTime() + "");
         getListBanner();
         Log.i("HomeViewModel", Calendar.getInstance().getTime().getTime() + "");
         getListQuickLink();
-        Log.i("HomeViewModel", Calendar.getInstance().getTime().getTime() + "");
-        getListFlashDeal();
-        Log.i("HomeViewModel", Calendar.getInstance().getTime().getTime() + "");
     }
 
     private void getListBanner() {
-        repository.getListBanner();
+        new Thread(() -> repository.getListBanner(new SimpleCallback() {
+            @Override
+            public void onCompleted() {
+                isBannerRequested = true;
+                getListFlashDeal();
+            }
+
+            @Override
+            public void onError(Throwable cause) {
+                isBannerRequested = true;
+                getListFlashDeal();
+            }
+        })).start();
     }
 
     private void getListQuickLink() {
@@ -53,30 +68,38 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onCompleted(ArrayList<ArrayList<QuickLinkModel>> quickLinkModels) {
                 _listQuickLink.postValue(mixQuickLinkData(quickLinkModels));
+                isQuickLinkRequested = true;
+                getListFlashDeal();
             }
 
             @Override
             public void onError(Throwable cause) {
                 UIUtiu.showToast(cause.getMessage());
                 _listQuickLink.postValue(null);
+                isQuickLinkRequested = true;
+                getListFlashDeal();
             }
         })).start();
     }
 
     private void getListFlashDeal() {
-        _listFlashDeal.setValue(new ArrayList<>());
-        new Thread(() -> repository.getFlashDeal(new FlashDealCallback() {
-            @Override
-            public void onCompleted(FlashDealResponseModel quickLinkModels) {
-                _listFlashDeal.postValue(quickLinkModels.getDealModelList());
-            }
+        //Call Banner API + Quick Link API in parallel , after both of them finish call Flash Deal API
+        if (isBannerRequested && isQuickLinkRequested) {
+            Log.i("HomeViewModel", Calendar.getInstance().getTime().getTime() + "FlashDeal");
+            _listFlashDeal.setValue(new ArrayList<>());
+            new Thread(() -> repository.getFlashDeal(new FlashDealCallback() {
+                @Override
+                public void onCompleted(FlashDealResponseModel quickLinkModels) {
+                    _listFlashDeal.postValue(quickLinkModels.getDealModelList());
+                }
 
-            @Override
-            public void onError(Throwable cause) {
-                UIUtiu.showToast(cause.getMessage());
-                _listFlashDeal.postValue(null);
-            }
-        })).start();
+                @Override
+                public void onError(Throwable cause) {
+                    UIUtiu.showToast(cause.getMessage());
+                    _listFlashDeal.postValue(null);
+                }
+            })).start();
+        }
     }
 
     private ArrayList<QuickLinkModel> mixQuickLinkData(ArrayList<ArrayList<QuickLinkModel>> listResponse) {

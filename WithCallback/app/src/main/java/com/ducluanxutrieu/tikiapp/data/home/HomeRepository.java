@@ -10,6 +10,7 @@ import com.ducluanxutrieu.tikiapp.data.models.QuickLinkResponseModel;
 import com.ducluanxutrieu.tikiapp.ui.home.FlashDealCallback;
 import com.ducluanxutrieu.tikiapp.ui.home.QuickLinkCallback;
 import com.ducluanxutrieu.tikiapp.utiu.ResultError;
+import com.ducluanxutrieu.tikiapp.utiu.SimpleCallback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,22 +29,24 @@ public class HomeRepository {
     public HomeRepository(BannerDao bannerDao, RetrofitService networkService) {
         this.bannerDao = bannerDao;
         this.networkService = networkService;
-        bannerList = bannerDao.allNotes();
+        this.bannerList = bannerDao.allNotes();
     }
 
 
-    public void getListBanner() {
+    public void getListBanner(SimpleCallback callback) {
         new Thread(() -> networkService.getBannerList().enqueue(new Callback<BannerResponseModel>() {
             @Override
             public void onResponse(@NotNull Call<BannerResponseModel> call, @NotNull final Response<BannerResponseModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     saveDataToDB(response.body().getBannerList());
-                }
+                    callback.onCompleted();
+                }else callback.onError(new ResultError("Unable to get ListBanner", null));
             }
 
             @Override
             public void onFailure(@NotNull Call<BannerResponseModel> call, @NotNull Throwable t) {
                 t.printStackTrace();
+                callback.onError(new ResultError("Unable to get ListBanner", t.getCause()));
             }
         })).start();
     }

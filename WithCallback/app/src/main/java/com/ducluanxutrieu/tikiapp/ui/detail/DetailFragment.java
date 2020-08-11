@@ -1,9 +1,11 @@
 package com.ducluanxutrieu.tikiapp.ui.detail;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import com.ducluanxutrieu.tikiapp.R;
  */
 public class DetailFragment extends Fragment {
     private WebView webView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -32,6 +35,18 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String url = DetailFragmentArgs.fromBundle(getArguments()).getUrl();
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            public void onProgressChanged(WebView view, int progress) {
+                Activity activity = getActivity();
+                if (activity != null) {
+                    activity.setTitle("Loading...");
+                    activity.setProgress(progress * 100);
+                    if (progress == 100)
+                        activity.setTitle("Show Detail");
+                }
+            }
+        });
         webView.loadUrl(url);
     }
 }

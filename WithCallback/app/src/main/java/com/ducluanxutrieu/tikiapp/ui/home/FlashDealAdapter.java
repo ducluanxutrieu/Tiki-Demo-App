@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.ducluanxutrieu.tikiapp.R;
 import com.ducluanxutrieu.tikiapp.data.models.FlashDealModel;
 import com.ducluanxutrieu.tikiapp.databinding.ItemFlashDealBinding;
+import com.ducluanxutrieu.tikiapp.utiu.ClickedListener;
 import com.ducluanxutrieu.tikiapp.utiu.UIUtiu;
 
 import java.util.ArrayList;
@@ -22,6 +23,11 @@ import java.util.Locale;
 
 public class FlashDealAdapter extends RecyclerView.Adapter<FlashDealAdapter.FlashDealViewHolder> {
     private final ArrayList<FlashDealModel> listFlashDeal = new ArrayList<>();
+    private final ClickedListener clickedListener;
+
+    public FlashDealAdapter(ClickedListener clickedListener) {
+        this.clickedListener = clickedListener;
+    }
 
     void setData(ArrayList<FlashDealModel> list) {
         listFlashDeal.clear();
@@ -39,7 +45,7 @@ public class FlashDealAdapter extends RecyclerView.Adapter<FlashDealAdapter.Flas
                 parent,
                 false
         );
-        return new FlashDealViewHolder(binding);
+        return new FlashDealViewHolder(binding, clickedListener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -57,11 +63,13 @@ public class FlashDealAdapter extends RecyclerView.Adapter<FlashDealAdapter.Flas
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static class FlashDealViewHolder extends RecyclerView.ViewHolder {
         private final NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("vi"));
-        final ItemFlashDealBinding item;
+        private final ItemFlashDealBinding item;
+        private final ClickedListener clickedListener;
 
-        public FlashDealViewHolder(@NonNull ItemFlashDealBinding item) {
+        public FlashDealViewHolder(@NonNull ItemFlashDealBinding item, ClickedListener clickedListener) {
             super(item.getRoot());
             this.item = item;
+            this.clickedListener = clickedListener;
         }
 
         void bindData(FlashDealModel flashDealModel) {
@@ -89,6 +97,12 @@ public class FlashDealAdapter extends RecyclerView.Adapter<FlashDealAdapter.Flas
                 item.pbFlashDeal.setProgress(20);
             }
             item.tvSellStatus.setText(sellStatus);
+
+            //set callback
+            item.getRoot().setOnClickListener(view -> {
+                String url = "https://tiki.vn/" + flashDealModel.getProduct().getUrlPath();
+                clickedListener.onClickedListener(url);
+            });
         }
     }
 }
